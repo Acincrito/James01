@@ -1,15 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=
-    , initial-scale=1.0">
-    <title>James</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Credenciais</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1> Dia 15/03 </h1>
-    <h2> James</h2>
-    <h3> hgjdfg</h3>
-    <h6> gghdc</h6>
+    <div class="container">
+        <h2>Gerenciador de Credenciais</h2>
+        
+        <label for="corretora">Corretora:</label>
+        <select id="corretora">
+            <option value="Binance">Binance</option>
+            <option value="IQ Option">IQ Option</option>
+            <option value="MetaTrader">MetaTrader</option>
+        </select>
+
+        <label for="api_key">API Key:</label>
+        <input type="text" id="api_key" placeholder="Digite sua API Key">
+
+        <button onclick="salvarCredencial()">Salvar Credencial</button>
+
+        <h3>Credenciais Salvas:</h3>
+        <button onclick="obterCredenciais()">Mostrar Credenciais</button>
+        <ul id="lista_credenciais"></ul>
+    </div>
+
+    <script src="/static/script.js"></script>
 </body>
 </html>
