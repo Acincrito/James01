@@ -3,30 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciar Credenciais</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <title>Painel de Controle - Robô Trader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        input, select, button {
+            margin: 10px;
+            padding: 10px;
+            width: 90%;
+        }
+
+        button {
+            border: none;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Gerenciador de Credenciais</h2>
-        
-        <label for="corretora">Corretora:</label>
+
+    <div id="login" class="container">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Usuário">
+        <input type="password" id="password" placeholder="Senha">
+        <button onclick="login()">Entrar</button>
+    </div>
+
+    <div id="painel" class="container hidden">
+        <h2>Painel de Controle</h2>
         <select id="corretora">
             <option value="Binance">Binance</option>
             <option value="IQ Option">IQ Option</option>
             <option value="MetaTrader">MetaTrader</option>
         </select>
 
-        <label for="api_key">API Key:</label>
         <input type="text" id="api_key" placeholder="Digite sua API Key">
-
         <button onclick="salvarCredencial()">Salvar Credencial</button>
 
         <h3>Credenciais Salvas:</h3>
         <button onclick="obterCredenciais()">Mostrar Credenciais</button>
         <ul id="lista_credenciais"></ul>
+
+        <button onclick="logout()">Sair</button>
     </div>
 
-    <script src="/static/script.js"></script>
+    <script>
+        // Simulação de login
+        function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Usuário padrão (você pode mudar isso)
+            if (username === "admin" && password === "admin123") {
+                localStorage.setItem("user", username);
+                document.getElementById("login").classList.add("hidden");
+                document.getElementById("painel").classList.remove("hidden");
+            } else {
+                alert("Login inválido!");
+            }
+        }
+
+        // Verifica se o usuário está logado
+        function verificarLogin() {
+            if (localStorage.getItem("user")) {
+                document.getElementById("login").classList.add("hidden");
+                document.getElementById("painel").classList.remove("hidden");
+            }
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem("user");
+            location.reload();
+        }
+
+        // Salvar credenciais
+        function salvarCredencial() {
+            let corretora = document.getElementById("corretora").value;
+            let api_key = document.getElementById("api_key").value;
+
+            let credenciais = JSON.parse(localStorage.getItem("credenciais")) || [];
+            credenciais.push({ corretora, api_key });
+            localStorage.setItem("credenciais", JSON.stringify(credenciais));
+
+            alert("✅ Credencial salva!");
+        }
+
+        // Obter credenciais salvas
+        function obterCredenciais() {
+            let lista = document.getElementById("lista_credenciais");
+            lista.innerHTML = "";
+            let credenciais = JSON.parse(localStorage.getItem("credenciais")) || [];
+
+            credenciais.forEach(item => {
+                let li = document.createElement("li");
+                li.textContent = `${item.corretora}: ${item.api_key}`;
+                lista.appendChild(li);
+            });
+        }
+
+        // Iniciar verificação de login
+        verificarLogin();
+    </script>
+
 </body>
 </html>
