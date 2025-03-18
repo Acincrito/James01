@@ -9,10 +9,12 @@
             font-family: Arial, sans-serif;
             text-align: center;
             background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
         }
 
         .container {
-            width: 50%;
+            max-width: 400px;
             margin: 50px auto;
             padding: 20px;
             background: white;
@@ -24,10 +26,11 @@
             margin: 10px;
             padding: 10px;
             width: 90%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         button {
-            border: none;
             background-color: #28a745;
             color: white;
             cursor: pointer;
@@ -40,10 +43,23 @@
         .hidden {
             display: none;
         }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background: #ddd;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
 
+    <!-- Tela de Login -->
     <div id="login" class="container">
         <h2>Login</h2>
         <input type="text" id="username" placeholder="Usuário">
@@ -51,8 +67,10 @@
         <button onclick="login()">Entrar</button>
     </div>
 
+    <!-- Painel de Controle -->
     <div id="painel" class="container hidden">
         <h2>Painel de Controle</h2>
+        
         <select id="corretora">
             <option value="Binance">Binance</option>
             <option value="IQ Option">IQ Option</option>
@@ -75,17 +93,17 @@
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
 
-            // Usuário padrão (você pode mudar isso)
+            // Usuário padrão (mude se quiser)
             if (username === "admin" && password === "admin123") {
                 localStorage.setItem("user", username);
                 document.getElementById("login").classList.add("hidden");
                 document.getElementById("painel").classList.remove("hidden");
             } else {
-                alert("Login inválido!");
+                alert("❌ Login inválido!");
             }
         }
 
-        // Verifica se o usuário está logado
+        // Verifica se o usuário já está logado
         function verificarLogin() {
             if (localStorage.getItem("user")) {
                 document.getElementById("login").classList.add("hidden");
@@ -99,7 +117,7 @@
             location.reload();
         }
 
-        // Salvar credenciais
+        // Salvar credenciais no LocalStorage
         function salvarCredencial() {
             let corretora = document.getElementById("corretora").value;
             let api_key = document.getElementById("api_key").value;
@@ -124,7 +142,7 @@
             });
         }
 
-        // Iniciar verificação de login
+        // Verificar login ao carregar a página
         verificarLogin();
     </script>
 
